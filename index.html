@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Budget Calculator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+<style>
+    body{
+        margin-top: 20px;
+        background-color:#55CBA6;
+        color: #fff;
+    }
+
+    #Output{
+        color: black;
+    }
+    .display-amount {
+        float: right;
+        font-size: 30px;
+    }
+    #net_income {
+        color: green;
+    }
+    #total_smart_exp {
+        color:red;
+    }
+    #total_smart_save {
+        color: rgb(236, 136, 54);
+    }
+    .description{
+        font-size: 12px;
+        font-style: italic;
+        color: grey;
+    }
+    
+@media (max-width: 320px) {
+  .AppName {
+    font-size: 35px;
+  }
+  .appDesc {
+    font-size: 10px;  
+  }
+  .description{
+        font-size: 10px;
+        font-style: italic;
+        color: grey;
+    }
+  #net_income, #total_smart_exp, #total_smart_save{
+      font-size: 22px;
+  }
+  .card-body{
+      font-size: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .AppName {
+    font-size: 35px;
+  }
+  .appDesc {
+    font-size: 10px;  
+  }
+  .description{
+        font-size: 10px;
+        font-style: italic;
+        color: grey;
+    }
+  #net_income, #total_smart_exp, #total_smart_save{
+      font-size: 22px;
+  }
+  .card-body{
+      font-size: 12px;
+  }
+}
+@media (max-width: 375px) {
+  .AppName {
+    font-size: 35px;
+  }
+  .appDesc {
+    font-size: 10px;  
+  }
+  .description{
+        font-size: 10px;
+        font-style: italic;
+        color: grey;
+    }
+  #net_income, #total_smart_exp, #total_smart_save{
+      font-size: 22px;
+  }
+  .card-body{
+      font-size: 12px;
+  }
+}
+</style>    
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h1 class="AppName display-4 text-left"><i class="fas fa-wallet"></i><span> SmartBudget</span></h1>
+                <p class="appDesc"><q><i>Simple plan for your stable finance</i></q></p>
+                <hr>
+                <form class="mt-4 mb-4" action="/">
+                    <div class="form-group">
+                        <label for="income" class="form-label">Net Salary:</label>
+                        <input id="income" type="number" class="form-control" placeholder="Enter your Net Salary (per month)">
+                    </div>
+                    <div class="form-group">
+                        <label for="deduction" class="form-label">Total Monthly Deductions (if any):</label>
+                        <input id="deduction" type="number" class="form-control" placeholder="Enter monthly Deductions" value="0">
+                    </div>
+                    <div class="form-group text-right">
+                        <input type="button" onclick="reset_budget()" class="btn btn-sm btn-danger" value="Reset"> 
+                        <input type="button" onclick='calculate_budget()' class="btn btn-sm btn-primary" value="Calculate"> 
+                    </div>
+                </form>
+                <hr>
+                <div id="Output">
+                    <div class="card mb-3 ">
+                        <div class="card-title mt-2 ml-2">
+                            <span style="color: #55CBA6;">Net Income:</span><span class="display-amount mr-4"style="" id="net_income">Rs. 12523.88</span></span> 
+                            <br><span class="description">This is your monthly income including deductions.</span>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3 ">
+                        <div class="card-title mt-2 ml-2">
+                            <span style="color: #55CBA6;">Smart Expense:</span><span class="display-amount mr-4" id="total_smart_exp">Rs. 12523.88</span></span> 
+                            <br><span class="description">This is your monthly expense limit.</span>
+                        </div>
+                        <div class="card-body">
+                            <p>
+                                Maximum total amount to spend on your needs:<strong><span style="float: right;" id="expNeeds"> 123</span></strong><br>
+                                <hr>
+                                Maximum total amount to spend on your wants:<strong><span style="float: right;" id="expWants"> 12</span></strong><br>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card mb-2 ">
+                        <div class="card-title mt-2 ml-2">
+                            <span style="color: #55CBA6;">Smart Savings:</span><span class="display-amount mr-4" id="total_smart_save">Rs. 12523.88</span></span> 
+                            <br><span class="description">This is your est. monthly savings.</span>
+                        </div>
+                        <div class="card-body">
+                            <p>
+                            Minimum in-hand savings you need to save:<strong><span style="float: right;" id="inhand_save"> 123</span></strong><br>
+                            <hr>
+                            Minimum amount you may invest every month:<strong><span style="float: right;" id="sip"> 12</span></strong><br>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    document.getElementById('Output').style.display = "None";
+    // On Click: Reset:
+    function reset_budget(){
+        window.location.reload()
+    }
+    // On Click: Calculate:
+    function calculate_budget(){
+        // get income value:
+        income = document.getElementById("income").value;
+        // get deduction value:
+        deduction = document.getElementById('deduction').value;
+        income = income-deduction;
+
+        // Calculations:
+        needs = (income*50)/100;
+        wants = (income*30)/100;
+        total_expense = needs + wants;
+        total_savings = (income*20)/100
+        sip = (income*10)/100;
+        inhand = total_savings-sip;
+        yearly = inhand*12
+        console.log(sip)
+        console.log(inhand)
+
+        // Income Section:
+        document.getElementById("net_income").innerHTML = "Rs. "+String(income);
+
+        // Expense Section:
+        document.getElementById("total_smart_exp").innerHTML = "Rs. "+String(total_expense);
+        document.getElementById("expNeeds").innerHTML = String(needs);
+        document.getElementById("expWants").innerHTML = String(wants);
+
+        // Savings Section:
+        document.getElementById("total_smart_save").innerHTML = "Rs. "+String(total_savings);
+        document.getElementById("inhand_save").innerHTML = String(inhand);
+        document.getElementById("sip").innerHTML = String(sip);
+        document.getElementById('Output').style.display = "block";
+
+    }
+
+
+</script>    
+</body>
+</html>
