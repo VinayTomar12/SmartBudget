@@ -1,0 +1,29 @@
+{
+  "name": "smart_budget",
+  "version": "1.0.0",
+  "description": "A simple javascript app for monthly best expense calculations",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VinayTomar12/SmartBudget.git"
+  },
+  "keywords": [
+    "smartbudget",
+    "expense",
+    "calculators",
+    "money"
+  ],
+  "author": "Vinay Tomar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VinayTomar12/SmartBudget/issues"
+  },
+  "homepage": "https://github.com/VinayTomar12.github.io/SmartBudget",
+  "dependencies": {
+    "gh-pages": "^3.1.0"
+  },
+  "devDependencies": {}
+}
